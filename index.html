@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Minh Cat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="startup-screen">
+        <div class="terminal-text">
+            <img src="assets/lb.png" class="startup-logo">
+            <h1>The World Machine</h1>
+            <p>Loading <span class="blink">_</span></p>
+        </div>
+    </div>
+
+    <div id="desktop">
+        
+        <div class="icon-grid">
+            <div class="icon" onclick="openWindow('aboutme', 'About Me')">
+                <img src="assets/abm.png" alt="abm">
+                <span>About Me</span>
+            </div>
+            <div class="icon" onclick="openWindow('mysocialmedia', 'My Social Media')">
+                <img src="assets/sm.png" alt="sm">
+                <span>Social Media</span>
+            </div>
+        </div>
+
+        <div id="aboutme" class="window draggable">
+            <div class="title-bar">
+                <div class="title-text">About Me</div>
+                <div class="window-controls">
+                    <button class="btn-close" onclick="closeWindow('aboutme')">&#10005;</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="scroll-box small-gap">
+                    <div class="profile-header">
+                        <img src="assets/abm.png" alt="abm" class="profile-pic">
+                        <div style="display:inline-block; vertical-align:top; margin-left:10px;">
+                            <img src="assets/vn.webp" alt="vn" class="flag-icon">
+                            <span class="location-text">Hanoi</span>
+                        </div>
+                    </div>
+                    
+                    <span style="font-size: 1.5rem; display:block; margin-top:10px; color:#fff;">Hi I'm Minh Cat :3</span>
+                    <h3 style="color: var(--purple-accent);">(You can call me: Minh Mèo, Minh, Mèo, Cat)</h3>
+                    
+                    <ul class="info-list">
+                        <li><strong>Gender:</strong> Male</li>
+                        <li><strong>Birthday:</strong> 08/11/2008</li>
+                        <li><strong>Email:</strong> minhcat0811@gmail.com</li>
+                        <li><strong>Alt Email:</strong> nikocat0811@gmail.com</li>
+                        <li><strong>Phone:</strong> Contact via Email/Social Media</li>
+                        <li><strong>Bio:</strong> I'm just a cat with a friendly soul:3</li>
+                        <li><strong>Personality:</strong> Friendly, Quiet but Easy-going, Curious, Creative & Always Optimistic</li>
+                        <li><strong>Hobbies:</strong> Online, Gaming, Musics, Drawing, Techy Things, CATS!:3</li>
+                        <li><strong>Hate:</strong> Mathematics, Banh Cuon (idk why), My Dad (not at all)</li>
+                        <li><strong>Weakness:</strong> Not good at communicating, shaky when nervous, Lazy Guy...</li>
+                    </ul>
+                    <p style="margin-top:10px; color: #888;">:) Sorry, there are too many to list them all here (Ask me on social media)</p>
+                </div>
+            </div>
+        </div> 
+
+        <div id="mysocialmedia" class="window draggable">
+            <div class="title-bar">
+                <div class="title-text">My Social Media</div>
+                <div class="window-controls">
+                    <button class="btn-close" onclick="closeWindow('mysocialmedia')">&#10005;</button>
+                </div>
+            </div>
+            <div class="window-content column-layout">
+                <h2 style="text-align:center; font-size: 1.5rem;">My Social Profiles</h2>
+                <div class="social-icons-container">
+                    <a href="https://www.facebook.com/minhcat0811" target="_blank"><img src="assets/fb.png"></a>
+                    <a href="https://discord.com/users/1243019425276493856" target="_blank"><img src="assets/discord.png"></a>
+                    <a href="https://www.youtube.com/@minhcat0811" target="_blank"><img src="assets/yt.png"></a>
+                    <a href="https://www.reddit.com/user/Few_Dentist_97" target="_blank"><img src="assets/reddit.png"></a>
+                    <a href="https://x.com/minhcat0811" target="_blank"><img src="assets/x.png"></a>
+                </div>
+            </div>
+        </div> 
+
+        <div id="taskbar">
+            <div id="taskbar-apps"></div>
+            <div id="clock">00:00 AM</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
