@@ -1,6 +1,5 @@
 window.addEventListener('load', () => {
     const startupScreen = document.getElementById('startup-screen');
-    // Hiệu ứng tắt màn hình startup
     setTimeout(() => {
         startupScreen.style.opacity = '0';
         startupScreen.style.transition = 'opacity 0.8s';
@@ -10,7 +9,6 @@ window.addEventListener('load', () => {
     }, 2000);
 });
 
-// --- CLOCK FUNCTION ---
 function updateClock() {
     const now = new Date();
     let hours = now.getHours();
@@ -25,23 +23,18 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// --- WINDOW MANAGEMENT ---
-
 function openWindow(id, titleName) {
     const win = document.getElementById(id);
     if (win) {
         win.style.display = 'flex';
         bringToFront(win);
         
-        // Logic reset vị trí cho Mobile để đảm bảo luôn căn giữa khi mở
         if (window.innerWidth <= 768) {
             win.style.top = '45%';
             win.style.left = '50%';
             win.style.transform = 'translate(-50%, -50%)';
-            win.style.margin = '0'; // Reset margin nếu có
+            win.style.margin = '0';
         } 
-        // Logic cho PC: Nếu chưa từng kéo (vẫn còn transform), giữ nguyên. 
-        // Nếu đã kéo rồi (có top/left cụ thể), giữ nguyên vị trí cũ.
 
         addTaskbarItem(id, titleName || 'Window');
     }
@@ -55,8 +48,6 @@ function closeWindow(id) {
     }
 }
 
-// --- TASKBAR MANAGEMENT ---
-
 function addTaskbarItem(id, name) {
     const taskbarContainer = document.getElementById('taskbar-apps');
     let existingItem = document.getElementById(`tab-${id}`);
@@ -67,7 +58,6 @@ function addTaskbarItem(id, name) {
         item.id = `tab-${id}`;
         item.innerText = name;
         
-        // Sự kiện click vào taskbar
         item.onclick = () => {
             const win = document.getElementById(id);
             if (win.style.display === 'none') {
@@ -92,7 +82,6 @@ function bringToFront(element) {
     zIndexCounter++;
     element.style.zIndex = zIndexCounter;
     
-    // Cập nhật giao diện taskbar (active/inactive)
     const allTabs = document.querySelectorAll('.taskbar-item');
     allTabs.forEach(t => {
         t.style.background = '#1a0d2e';
@@ -106,40 +95,27 @@ function bringToFront(element) {
     }
 }
 
-// --- DRAGGING LOGIC (POINTER EVENTS) ---
-// Sử dụng Pointer Events để hỗ trợ cả Mouse và Touch cùng lúc
-
 const windows = document.querySelectorAll('.window');
 
 windows.forEach(win => {
     const titleBar = win.querySelector('.title-bar');
     
-    // Khi chạm vào bất kỳ đâu trên window thì bring to front
     win.addEventListener('pointerdown', () => bringToFront(win));
 
     let isDragging = false;
     let offsetLeft, offsetTop;
 
     titleBar.addEventListener('pointerdown', (e) => {
-        // Ngăn chặn hành vi mặc định (như bôi đen text)
-        e.preventDefault(); 
         
-        isDragging = true;
-        
-        // Tính toán vị trí hiện tại của window
         const rect = win.getBoundingClientRect();
         
-        // Tính khoảng cách từ con trỏ chuột đến góc trái trên của window
         offsetLeft = e.clientX - rect.left;
         offsetTop = e.clientY - rect.top;
 
-        // Xóa transform để chuyển sang dùng top/left tuyệt đối
-        // Điều này ngăn việc cửa sổ bị "nhảy" khi bắt đầu kéo
         win.style.transform = 'none';
         win.style.left = `${rect.left}px`;
         win.style.top = `${rect.top}px`;
         
-        // "Bắt" con trỏ vào titleBar để khi kéo nhanh ra ngoài vẫn nhận diện được
         titleBar.setPointerCapture(e.pointerId);
         titleBar.style.cursor = 'grabbing';
     });
@@ -148,7 +124,6 @@ windows.forEach(win => {
         if (!isDragging) return;
         e.preventDefault();
 
-        // Tính toán vị trí mới
         const newX = e.clientX - offsetLeft;
         const newY = e.clientY - offsetTop;
 
@@ -162,7 +137,6 @@ windows.forEach(win => {
         titleBar.style.cursor = 'move';
     });
     
-    // Xử lý trường hợp con trỏ bị hủy (ví dụ Alt+Tab hoặc popup hệ thống)
     titleBar.addEventListener('pointercancel', (e) => {
         isDragging = false;
         titleBar.releasePointerCapture(e.pointerId);
