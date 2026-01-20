@@ -29,12 +29,23 @@ function openWindow(id, titleName) {
         win.style.display = 'flex';
         bringToFront(win);
         
-        if (window.innerWidth <= 768) {
-            win.style.top = '45%';
+        const isMobile = window.innerWidth <= 768;
+        const isPortrait = window.innerHeight > window.innerWidth;
+        
+        if (isMobile) {
+            win.style.top = '50%';
             win.style.left = '50%';
             win.style.transform = 'translate(-50%, -50%)';
             win.style.margin = '0';
-        } 
+            
+            if (isPortrait) {
+                win.style.width = '95vw';
+                win.style.height = '85vh';
+            } else {
+                win.style.width = '90vw';
+                win.style.height = '80vh';
+            }
+        }
 
         addTaskbarItem(id, titleName || 'Window');
     }
@@ -58,14 +69,16 @@ function addTaskbarItem(id, name) {
         item.id = `tab-${id}`;
         item.innerText = name;
         
-        item.onclick = () => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
             const win = document.getElementById(id);
             if (win.style.display === 'none') {
                 openWindow(id, name);
             } else {
                 bringToFront(win);
             }
-        };
+        });
+        
         taskbarContainer.appendChild(item);
     }
 }
@@ -84,14 +97,12 @@ function bringToFront(element) {
     
     const allTabs = document.querySelectorAll('.taskbar-item');
     allTabs.forEach(t => {
-        t.style.background = '#1a0d2e';
-        t.style.color = '#9664FF';
+        t.classList.remove('active');
     });
     
     const relatedTab = document.getElementById(`tab-${element.id}`);
     if(relatedTab) {
-        relatedTab.style.background = '#9664FF';
-        relatedTab.style.color = '#000';
+        relatedTab.classList.add('active');
     }
 }
 
@@ -99,40 +110,60 @@ const windows = document.querySelectorAll('.window');
 
 windows.forEach(win => {
     const titleBar = win.querySelector('.title-bar');
-    const closeBtn = win.querySelector('.close-btn');
+    const closeBtn = win.querySelector('.btn-close');
 
     if (closeBtn) {
         closeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            closeWindow(win.id);
+        });
+        
+        closeBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             closeWindow(win.id);
         });
     }
 
-    titleBar.style.touchAction = 'none'; 
+    titleBar.style.touchAction = 'none';
     
-    win.addEventListener('pointerdown', () => bringToFront(win));
+    win.addEventListener('pointerdown', (e) => {
+        if (!e.target.closest('.btn-close')) {
+            bringToFront(win);
+        }
+    });
 
     let isDragging = false;
-    let offsetLeft, offsetTop;
+    let startX, startY;
+    let initialLeft, initialTop;
 
     titleBar.addEventListener('pointerdown', (e) => {
-        if (e.target.classList.contains('close-btn') || e.target.closest('.close-btn')) {
+        if (e.target.classList.contains('btn-close') || e.target.closest('.btn-close')) {
             return;
         }
         
         e.preventDefault();
-        
-        isDragging = true; 
+        isDragging = true;
         
         const rect = win.getBoundingClientRect();
         
-        offsetLeft = e.clientX - rect.left;
-        offsetTop = e.clientY - rect.top;
-
-        win.style.transform = 'none';
-        win.style.left = `${rect.left}px`;
-        win.style.top = `${rect.top}px`;
-        win.style.margin = '0'; 
+        startX = e.clientX;
+        startY = e.clientY;
+        
+        const computedStyle = window.getComputedStyle(win);
+        const currentTransform = computedStyle.transform;
+        
+        if (currentTransform && currentTransform !== 'none') {
+            win.style.transform = 'none';
+            win.style.left = `${rect.left}px`;
+            win.style.top = `${rect.top}px`;
+        }
+        
+        initialLeft = parseFloat(win.style.left) || rect.left;
+        initialTop = parseFloat(win.style.top) || rect.top;
+        
+        win.style.margin = '0';
         
         titleBar.setPointerCapture(e.pointerId);
         titleBar.style.cursor = 'grabbing';
@@ -140,22 +171,60 @@ windows.forEach(win => {
 
     titleBar.addEventListener('pointermove', (e) => {
         if (!isDragging) return;
-        e.preventDefault(); 
+        e.preventDefault();
 
-        const newX = e.clientX - offsetLeft;
-        const newY = e.clientY - offsetTop;
+        const deltaX = e.clientX - startX;
+        const deltaY = e.clientY - startY;
 
-        win.style.left = `${newX}px`;
-        win.style.top = `${newY}px`;
+        const newLeft = initialLeft + deltaX;
+        const newTop = initialTop + deltaY;
+
+        const maxX = window.innerWidth - win.offsetWidth;
+        const maxY = window.innerHeight - win.offsetHeight - 40;
+
+        win.style.left = `${Math.max(0, Math.min(newLeft, maxX))}px`;
+        win.style.top = `${Math.max(0, Math.min(newTop, maxY))}px`;
     });
 
     const stopDrag = (e) => {
         if (!isDragging) return;
         isDragging = false;
-        titleBar.releasePointerCapture(e.pointerId);
+        if (e.pointerId !== undefined) {
+            titleBar.releasePointerCapture(e.pointerId);
+        }
         titleBar.style.cursor = 'move';
     };
 
     titleBar.addEventListener('pointerup', stopDrag);
     titleBar.addEventListener('pointercancel', stopDrag);
+    titleBar.addEventListener('touchend', stopDrag);
+});
+
+window.addEventListener('resize', () => {
+    const openWindows = document.querySelectorAll('.window[style*="display: flex"]');
+    openWindows.forEach(win => {
+        const isMobile = window.innerWidth <= 768;
+        const isPortrait = window.innerHeight > window.innerWidth;
+        
+        if (isMobile) {
+            win.style.top = '50%';
+            win.style.left = '50%';
+            win.style.transform = 'translate(-50%, -50%)';
+            
+            if (isPortrait) {
+                win.style.width = '95vw';
+                win.style.height = '85vh';
+            } else {
+                win.style.width = '90vw';
+                win.style.height = '80vh';
+            }
+        } else {
+            const rect = win.getBoundingClientRect();
+            if (rect.left < 0 || rect.top < 0 || rect.right > window.innerWidth || rect.bottom > window.innerHeight) {
+                win.style.top = '50%';
+                win.style.left = '50%';
+                win.style.transform = 'translate(-50%, -50%)';
+            }
+        }
+    });
 });
