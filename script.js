@@ -29,12 +29,24 @@ function openWindow(id, titleName) {
         win.style.display = 'flex';
         bringToFront(win);
         
-        if (window.innerWidth <= 768) {
-            win.style.top = '45%';
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            win.style.top = '50%';
             win.style.left = '50%';
             win.style.transform = 'translate(-50%, -50%)';
             win.style.margin = '0';
-        } 
+            win.style.width = '90vw';
+            win.style.height = '80vh';
+            win.style.maxWidth = '90vw';
+            win.style.maxHeight = '80vh';
+        } else {
+            if (!win.style.left || win.style.left === '50%') {
+                win.style.top = '50%';
+                win.style.left = '50%';
+                win.style.transform = 'translate(-50%, -50%)';
+            }
+        }
 
         addTaskbarItem(id, titleName || 'Window');
     }
@@ -108,6 +120,8 @@ windows.forEach(win => {
     let offsetLeft, offsetTop;
 
     titleBar.addEventListener('pointerdown', (e) => {
+        if (e.target.classList.contains('close-btn')) return;
+        
         e.preventDefault();
         
         isDragging = true; 
@@ -117,10 +131,13 @@ windows.forEach(win => {
         offsetLeft = e.clientX - rect.left;
         offsetTop = e.clientY - rect.top;
 
-        win.style.transform = 'none';
-        win.style.left = `${rect.left}px`;
-        win.style.top = `${rect.top}px`;
-        win.style.margin = '0'; 
+        const computedTransform = window.getComputedStyle(win).transform;
+        if (computedTransform && computedTransform !== 'none') {
+            win.style.transform = 'none';
+            win.style.left = `${rect.left}px`;
+            win.style.top = `${rect.top}px`;
+            win.style.margin = '0';
+        }
         
         titleBar.setPointerCapture(e.pointerId);
         titleBar.style.cursor = 'grabbing';
@@ -133,11 +150,18 @@ windows.forEach(win => {
         const newX = e.clientX - offsetLeft;
         const newY = e.clientY - offsetTop;
 
-        win.style.left = `${newX}px`;
-        win.style.top = `${newY}px`;
+        const maxX = window.innerWidth - win.offsetWidth;
+        const maxY = window.innerHeight - win.offsetHeight;
+
+        const boundedX = Math.max(0, Math.min(newX, maxX));
+        const boundedY = Math.max(0, Math.min(newY, maxY));
+
+        win.style.left = `${boundedX}px`;
+        win.style.top = `${boundedY}px`;
     });
 
     const stopDrag = (e) => {
+        if (!isDragging) return;
         isDragging = false;
         titleBar.releasePointerCapture(e.pointerId);
         titleBar.style.cursor = 'move';
@@ -146,3 +170,24 @@ windows.forEach(win => {
     titleBar.addEventListener('pointerup', stopDrag);
     titleBar.addEventListener('pointercancel', stopDrag);
 });
+
+let resizeObserver;
+if (typeof ResizeObserver !== 'undefined') {
+    resizeObserver = new ResizeObserver(() => {
+        windows.forEach(win => {
+            if (win.style.display !== 'none') {
+                const isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    win.style.top = '50%';
+                    win.style.left = '50%';
+                    win.style.transform = 'translate(-50%, -50%)';
+                    win.style.width = '90vw';
+                    win.style.height = '80vh';
+                    win.style.maxWidth = '90vw';
+                    win.style.maxHeight = '80vh';
+                }
+            }
+        });
+    });
+    resizeObserver.observe(document.body);
+}
