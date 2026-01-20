@@ -40,6 +40,7 @@ function openWindow(id, titleName) {
 }
 
 function closeWindow(id) {
+    element.addEventListener('pointerdown', closeWindow);
     const win = document.getElementById(id);
     if(win) {
         win.style.display = 'none';
@@ -136,5 +137,4 @@ windows.forEach(win => {
     const stopDrag = () => { isDragging = false; };
     document.addEventListener('mouseup', stopDrag);
     document.addEventListener('touchend', stopDrag);
-    element.addEventListener('pointerdown', myFunction);
 });
