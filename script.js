@@ -99,6 +99,8 @@ const windows = document.querySelectorAll('.window');
 
 windows.forEach(win => {
     const titleBar = win.querySelector('.title-bar');
+
+    titleBar.style.touchAction = 'none'; 
     
     win.addEventListener('pointerdown', () => bringToFront(win));
 
@@ -106,6 +108,9 @@ windows.forEach(win => {
     let offsetLeft, offsetTop;
 
     titleBar.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        
+        isDragging = true; 
         
         const rect = win.getBoundingClientRect();
         
@@ -115,6 +120,7 @@ windows.forEach(win => {
         win.style.transform = 'none';
         win.style.left = `${rect.left}px`;
         win.style.top = `${rect.top}px`;
+        win.style.margin = '0'; 
         
         titleBar.setPointerCapture(e.pointerId);
         titleBar.style.cursor = 'grabbing';
@@ -122,7 +128,7 @@ windows.forEach(win => {
 
     titleBar.addEventListener('pointermove', (e) => {
         if (!isDragging) return;
-        e.preventDefault();
+        e.preventDefault(); 
 
         const newX = e.clientX - offsetLeft;
         const newY = e.clientY - offsetTop;
@@ -131,15 +137,12 @@ windows.forEach(win => {
         win.style.top = `${newY}px`;
     });
 
-    titleBar.addEventListener('pointerup', (e) => {
+    const stopDrag = (e) => {
         isDragging = false;
         titleBar.releasePointerCapture(e.pointerId);
         titleBar.style.cursor = 'move';
-    });
-    
-    titleBar.addEventListener('pointercancel', (e) => {
-        isDragging = false;
-        titleBar.releasePointerCapture(e.pointerId);
-        titleBar.style.cursor = 'move';
-    });
+    };
+
+    titleBar.addEventListener('pointerup', stopDrag);
+    titleBar.addEventListener('pointercancel', stopDrag);
 });
