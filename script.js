@@ -29,24 +29,12 @@ function openWindow(id, titleName) {
         win.style.display = 'flex';
         bringToFront(win);
         
-        const isMobile = window.innerWidth <= 768;
-        
-        if (isMobile) {
-            win.style.top = '50%';
+        if (window.innerWidth <= 768) {
+            win.style.top = '45%';
             win.style.left = '50%';
             win.style.transform = 'translate(-50%, -50%)';
             win.style.margin = '0';
-            win.style.width = '90vw';
-            win.style.height = '80vh';
-            win.style.maxWidth = '90vw';
-            win.style.maxHeight = '80vh';
-        } else {
-            if (!win.style.left || win.style.left === '50%') {
-                win.style.top = '50%';
-                win.style.left = '50%';
-                win.style.transform = 'translate(-50%, -50%)';
-            }
-        }
+        } 
 
         addTaskbarItem(id, titleName || 'Window');
     }
@@ -111,6 +99,14 @@ const windows = document.querySelectorAll('.window');
 
 windows.forEach(win => {
     const titleBar = win.querySelector('.title-bar');
+    const closeBtn = win.querySelector('.close-btn');
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeWindow(win.id);
+        });
+    }
 
     titleBar.style.touchAction = 'none'; 
     
@@ -120,7 +116,9 @@ windows.forEach(win => {
     let offsetLeft, offsetTop;
 
     titleBar.addEventListener('pointerdown', (e) => {
-        if (e.target.classList.contains('close-btn')) return;
+        if (e.target.classList.contains('close-btn') || e.target.closest('.close-btn')) {
+            return;
+        }
         
         e.preventDefault();
         
@@ -131,13 +129,10 @@ windows.forEach(win => {
         offsetLeft = e.clientX - rect.left;
         offsetTop = e.clientY - rect.top;
 
-        const computedTransform = window.getComputedStyle(win).transform;
-        if (computedTransform && computedTransform !== 'none') {
-            win.style.transform = 'none';
-            win.style.left = `${rect.left}px`;
-            win.style.top = `${rect.top}px`;
-            win.style.margin = '0';
-        }
+        win.style.transform = 'none';
+        win.style.left = `${rect.left}px`;
+        win.style.top = `${rect.top}px`;
+        win.style.margin = '0'; 
         
         titleBar.setPointerCapture(e.pointerId);
         titleBar.style.cursor = 'grabbing';
@@ -150,14 +145,8 @@ windows.forEach(win => {
         const newX = e.clientX - offsetLeft;
         const newY = e.clientY - offsetTop;
 
-        const maxX = window.innerWidth - win.offsetWidth;
-        const maxY = window.innerHeight - win.offsetHeight;
-
-        const boundedX = Math.max(0, Math.min(newX, maxX));
-        const boundedY = Math.max(0, Math.min(newY, maxY));
-
-        win.style.left = `${boundedX}px`;
-        win.style.top = `${boundedY}px`;
+        win.style.left = `${newX}px`;
+        win.style.top = `${newY}px`;
     });
 
     const stopDrag = (e) => {
@@ -170,24 +159,3 @@ windows.forEach(win => {
     titleBar.addEventListener('pointerup', stopDrag);
     titleBar.addEventListener('pointercancel', stopDrag);
 });
-
-let resizeObserver;
-if (typeof ResizeObserver !== 'undefined') {
-    resizeObserver = new ResizeObserver(() => {
-        windows.forEach(win => {
-            if (win.style.display !== 'none') {
-                const isMobile = window.innerWidth <= 768;
-                if (isMobile) {
-                    win.style.top = '50%';
-                    win.style.left = '50%';
-                    win.style.transform = 'translate(-50%, -50%)';
-                    win.style.width = '90vw';
-                    win.style.height = '80vh';
-                    win.style.maxWidth = '90vw';
-                    win.style.maxHeight = '80vh';
-                }
-            }
-        });
-    });
-    resizeObserver.observe(document.body);
-}
