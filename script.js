@@ -136,4 +136,5 @@ windows.forEach(win => {
     const stopDrag = () => { isDragging = false; };
     document.addEventListener('mouseup', stopDrag);
     document.addEventListener('touchend', stopDrag);
+    element.addEventListener('pointerdown', myFunction);
 });
