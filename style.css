@@ -141,6 +141,7 @@ body {
     overflow: hidden;
     position: relative;
     background: rgba(10, 5, 20, 0.95);
+    image-rendering: pixelated;
 }
 
 .scroll-box {
@@ -251,4 +252,5 @@ body {
     .social-icons-container a img { width: 48px; height: 48px; }
     
     body { cursor: auto; }
+
 }
