@@ -40,8 +40,16 @@ body {
     max-width: 90%;
 }
 
-#startup-screen h1 { font-size: clamp(2rem, 5vw, 4rem); margin: 10px 0; color: var(--purple-accent); }
-#startup-screen p { font-size: clamp(1rem, 3vw, 2rem); margin: 5px 0; }
+#startup-screen h1 { 
+    font-size: clamp(2rem, 5vw, 4rem); 
+    margin: 10px 0; 
+    color: var(--purple-accent); 
+}
+
+#startup-screen p { 
+    font-size: clamp(1rem, 3vw, 2rem); 
+    margin: 5px 0; 
+}
 
 .startup-logo {
     width: 200px;
@@ -49,8 +57,15 @@ body {
     margin-bottom: 20px;
 }
 
-.blink { animation: blinking 1s infinite; }
-@keyframes blinking { 0% {opacity: 1;} 50% {opacity: 0;} 100% {opacity: 1;} }
+.blink { 
+    animation: blinking 1s infinite; 
+}
+
+@keyframes blinking { 
+    0% {opacity: 1;} 
+    50% {opacity: 0;} 
+    100% {opacity: 1;} 
+}
 
 #desktop {
     width: 100vw;
@@ -84,8 +99,16 @@ body {
     width: 100px;
 }
 
-.icon img { width: 48px; height: 48px; object-fit: contain; }
-.icon:hover { transform: scale(1.1); }
+.icon img { 
+    width: 48px; 
+    height: 48px; 
+    object-fit: contain; 
+}
+
+.icon:hover { 
+    transform: scale(1.1); 
+}
+
 .icon span { 
     margin-top: 5px; 
     font-size: 18px; 
@@ -123,6 +146,15 @@ body {
     touch-action: none;
 }
 
+.title-text {
+    flex: 1;
+}
+
+.window-controls {
+    display: flex;
+    gap: 5px;
+}
+
 .window-controls button {
     background: #000;
     color: var(--text-white);
@@ -133,8 +165,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 18px;
 }
-.window-controls button:hover { background: #FF0000; color: #fff; }
+
+.window-controls button:hover { 
+    background: #FF0000; 
+    color: #fff; 
+}
 
 .window-content {
     flex: 1;
@@ -142,25 +179,76 @@ body {
     position: relative;
     background: rgba(10, 5, 20, 0.95);
     image-rendering: pixelated;
+    padding: 20px;
 }
 
 .scroll-box {
     width: 100%;
     height: 100%;
-    padding: 20px;
     overflow-y: auto;
 }
 
-.scroll-box::-webkit-scrollbar { width: 8px; }
-.scroll-box::-webkit-scrollbar-track { background: #000; }
-.scroll-box::-webkit-scrollbar-thumb { background: #9664FF; }
+.scroll-box::-webkit-scrollbar { 
+    width: 8px; 
+}
 
-.profile-header { margin-bottom: 15px; border-bottom: 1px dashed #9664FF; padding-bottom: 10px;}
-.profile-pic { width: 100px; height: 100px; border: 2px solid #9664FF; object-fit: cover;}
-.flag-icon { width: 30px; vertical-align: middle; }
-.location-text { font-size: 1.2rem; vertical-align: middle; }
+.scroll-box::-webkit-scrollbar-track { 
+    background: #000; 
+}
 
-.info-list { list-style: none; padding: 0; }
+.scroll-box::-webkit-scrollbar-thumb { 
+    background: #9664FF; 
+}
+
+.profile-header { 
+    margin-bottom: 15px; 
+    border-bottom: 1px dashed #9664FF; 
+    padding-bottom: 10px;
+}
+
+.profile-pic { 
+    width: 100px; 
+    height: 100px; 
+    border: 2px solid #9664FF; 
+    object-fit: cover;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.location-container {
+    display: inline-block; 
+    vertical-align: top; 
+    margin-left: 10px;
+}
+
+.flag-icon { 
+    width: 30px; 
+    vertical-align: middle; 
+}
+
+.location-text { 
+    font-size: 1.2rem; 
+    vertical-align: middle; 
+}
+
+.greeting-text {
+    font-size: 1.5rem; 
+    display: block; 
+    margin-top: 10px; 
+    color: #fff;
+}
+
+.nickname-text {
+    color: var(--purple-accent);
+    margin-top: 5px;
+}
+
+.info-list { 
+    list-style: none; 
+    padding: 0; 
+    margin-top: 15px;
+}
+
 .info-list li { 
     margin-bottom: 8px; 
     font-size: 1.2rem; 
@@ -168,19 +256,84 @@ body {
     padding-left: 10px; 
     background: rgba(150, 100, 255, 0.05);
 }
-.info-list li strong { color: #9664FF; }
 
-.social-icons-container {
+.info-list li strong { 
+    color: #9664FF; 
+}
+
+.info-note {
+    margin-top: 10px; 
+    color: #888;
+}
+
+.social-heading {
+    text-align: center; 
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.social-profiles-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-    padding: 20px;
     align-items: center;
-    height: 100%;
 }
-.social-icons-container a img { width: 64px; height: 64px; transition: transform 0.2s; }
-.social-icons-container a:hover img { transform: scale(1.2) rotate(5deg); }
+
+.social-profiles-container a img { 
+    width: 48px; 
+    height: 48px; 
+    transition: transform 0.2s; 
+}
+
+.social-profiles-container a:hover img { 
+    transform: scale(1.2) rotate(5deg); 
+}
+
+.games-heading {
+    text-align: center; 
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.games-container {
+    overflow-y: auto;
+    height: calc(100% - 60px);
+}
+
+.games-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.games-list li {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    border-left: 2px solid #9664FF;
+    padding-left: 10px;
+    background: rgba(150, 100, 255, 0.05);
+}
+
+.games-list li a {
+    color: var(--text-white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.games-list li a:hover {
+    color: #fff;
+}
+
+.games-list li img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
 
 #taskbar {
     position: absolute;
@@ -203,6 +356,18 @@ body {
     overflow-x: auto;
 }
 
+#taskbar-apps::-webkit-scrollbar {
+    height: 4px;
+}
+
+#taskbar-apps::-webkit-scrollbar-track {
+    background: #000;
+}
+
+#taskbar-apps::-webkit-scrollbar-thumb {
+    background: #9664FF;
+}
+
 .taskbar-item {
     background: #1a0d2e;
     border: 1px solid #9664FF;
@@ -214,7 +379,9 @@ body {
     align-items: center;
     white-space: nowrap;
     height: 30px;
+    flex-shrink: 0;
 }
+
 .taskbar-item:hover, .taskbar-item.active {
     background: #9664FF;
     color: #000;
@@ -225,6 +392,7 @@ body {
     font-size: 20px;
     padding: 0 10px;
     background: #000;
+    flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
@@ -236,21 +404,75 @@ body {
         gap: 10px;
     }
     
-    .icon { width: 80px; }
-    .icon span { font-size: 14px; }
+    .icon { 
+        width: 80px; 
+    }
+    
+    .icon img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .icon span { 
+        font-size: 14px; 
+    }
 
     .window {
         width: 95vw !important;
-        height: 80vh !important;
-        top: 45% !important; 
+        height: 85vh !important;
+        top: 50% !important; 
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
     }
 
-    .title-bar { padding: 8px; font-size: 18px; }
+    .title-bar { 
+        padding: 8px; 
+        font-size: 18px; 
+    }
     
-    .social-icons-container a img { width: 48px; height: 48px; }
+    .window-content {
+        padding: 15px;
+    }
     
-    body { cursor: auto; }
+    .social-profiles-container a img { 
+        width: 40px; 
+        height: 40px; 
+    }
+    
+    .games-list li img {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .info-list li {
+        font-size: 1rem;
+    }
+    
+    .games-list li {
+        font-size: 1rem;
+    }
+    
+    body { 
+        cursor: auto; 
+    }
 
+    #clock {
+        font-size: 16px;
+        padding: 0 5px;
+    }
+
+    .taskbar-item {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+    .window {
+        width: 90vw !important;
+        height: 80vh !important;
+    }
+    
+    .icon-grid {
+        gap: 8px;
+    }
 }
