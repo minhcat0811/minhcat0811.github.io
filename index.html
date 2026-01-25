@@ -10,7 +10,7 @@
 
     <div id="startup-screen">
         <div class="terminal-text">
-            <img src="assets/lb.png" class="startup-logo">
+            <img src="assets/lb.png" class="startup-logo" alt="Logo">
             <h1>The World Machine</h1>
             <p>Loading <span class="blink">_</span></p>
         </div>
@@ -19,16 +19,16 @@
     <div id="desktop">
         
         <div class="icon-grid">
-            <div class="icon" onclick="openWindow('aboutme', 'About Me')">
-                <img src="assets/abm.png" alt="abm">
+            <div class="icon" data-window="aboutme" data-title="About Me">
+                <img src="assets/abm.png" alt="About Me">
                 <span>About Me</span>
             </div>
-            <div class="icon" onclick="openWindow('mysocialmedia', 'My Social Media')">
-                <img src="assets/sm.png" alt="sm">
+            <div class="icon" data-window="mysocialmedia" data-title="My Social Media">
+                <img src="assets/sm.png" alt="Social Media">
                 <span>Social Media</span>
             </div>
-            <div class="icon" onclick="openWindow('games', 'Games')">
-                <img src="assets/games.png" alt="g">
+            <div class="icon" data-window="games" data-title="Games">
+                <img src="assets/games.png" alt="Games">
                 <span>Games</span>
             </div>
         </div>
@@ -37,21 +37,21 @@
             <div class="title-bar">
                 <div class="title-text">About Me</div>
                 <div class="window-controls">
-                    <button class="btn-close" onclick="closeWindow('aboutme')">&#10005;</button>
+                    <button class="btn-close" aria-label="Close">&#10005;</button>
                 </div>
             </div>
             <div class="window-content">
                 <div class="scroll-box small-gap">
                     <div class="profile-header">
-                        <img src="assets/abm.png" alt="abm" class="profile-pic">
-                        <div style="display:inline-block; vertical-align:top; margin-left:10px;">
-                            <img src="assets/vn.webp" alt="vn" class="flag-icon">
+                        <img src="assets/abm.png" alt="Profile" class="profile-pic">
+                        <div class="location-container">
+                            <img src="assets/vn.webp" alt="Vietnam Flag" class="flag-icon">
                             <span class="location-text">Hanoi</span>
                         </div>
                     </div>
                     
-                    <span style="font-size: 1.5rem; display:block; margin-top:10px; color:#fff;">Hi I'm Minh Cat :3</span>
-                    <h3 style="color: var(--purple-accent);">(You can call me: Minh Mèo, Minh, Mèo, Cat)</h3>
+                    <span class="greeting-text">Hi I'm Minh Cat :3</span>
+                    <h3 class="nickname-text">(You can call me: Minh Mèo, Minh, Mèo, Cat)</h3>
                     
                     <ul class="info-list">
                         <li><strong>Gender:</strong> Male</li>
@@ -65,7 +65,7 @@
                         <li><strong>Hate:</strong> Mathematics, Banh Cuon (idk why), My Dad (not at all)</li>
                         <li><strong>Weakness:</strong> I Have a Cat Brain (forgetful), Not good at communicating, Shaky when Nervous, Lazy Guy...</li>
                     </ul>
-                    <p style="margin-top:10px; color: #888;">:) Sorry, there are too many to list them all here (Ask me on social media)</p>
+                    <p class="info-note">:) Sorry, there are too many to list them all here (Ask me on social media)</p>
                 </div>
             </div>
         </div> 
@@ -74,19 +74,19 @@
             <div class="title-bar">
                 <div class="title-text">My Social Media</div>
                 <div class="window-controls">
-                    <button class="btn-close" onclick="closeWindow('mysocialmedia')">&#10005;</button>
+                    <button class="btn-close" aria-label="Close">&#10005;</button>
                 </div>
             </div>
-            <div class="window-content column-layout">
-                <h2 style="text-align:center; font-size: 1.5rem;">My Social Profiles</h2>
-                <div class="social-profiles-container window-content column-layout" align-items: center;>
-                    <a href="https://www.facebook.com/minhcat0811" target="_blank"><img src="assets/fb.png" width="48" height="48"></a>
-                    <a href="https://discord.com/users/1243019425276493856" target="_blank"><img src="assets/discord.png" width="48" height="48"></a>
-                    <a href="https://www.youtube.com/@minhcat0811" target="_blank"><img src="assets/yt.png" width="48" height="48"></a>
-                    <a href="https://www.reddit.com/user/Few_Dentist_97" target="_blank"><img src="assets/reddit.png" width="48" height="48"></a>
-                    <a href="https://x.com/minhcat0811" target="_blank"><img src="assets/x.png" width="48" height="48"></a>
-                    <a href="https://github.com/minhcat0811" target="_blank"><img src="assets/github.png" width="48" height="48"></a>
-                    <a href="https://steamcommunity.com/id/minhcat" target="_blank"><img src="assets/steam.png" width="48" height="48"></a>
+            <div class="window-content">
+                <h2 class="social-heading">My Social Profiles</h2>
+                <div class="social-profiles-container">
+                    <a href="https://www.facebook.com/minhcat0811" target="_blank" rel="noopener noreferrer"><img src="assets/fb.png" width="48" height="48" alt="Facebook"></a>
+                    <a href="https://discord.com/users/1243019425276493856" target="_blank" rel="noopener noreferrer"><img src="assets/discord.png" width="48" height="48" alt="Discord"></a>
+                    <a href="https://www.youtube.com/@minhcat0811" target="_blank" rel="noopener noreferrer"><img src="assets/yt.png" width="48" height="48" alt="YouTube"></a>
+                    <a href="https://www.reddit.com/user/Few_Dentist_97" target="_blank" rel="noopener noreferrer"><img src="assets/reddit.png" width="48" height="48" alt="Reddit"></a>
+                    <a href="https://x.com/minhcat0811" target="_blank" rel="noopener noreferrer"><img src="assets/x.png" width="48" height="48" alt="X"></a>
+                    <a href="https://github.com/minhcat0811" target="_blank" rel="noopener noreferrer"><img src="assets/github.png" width="48" height="48" alt="GitHub"></a>
+                    <a href="https://steamcommunity.com/id/minhcat" target="_blank" rel="noopener noreferrer"><img src="assets/steam.png" width="48" height="48" alt="Steam"></a>
                 </div>
             </div>
         </div>
@@ -95,20 +95,20 @@
             <div class="title-bar">
                 <div class="title-text">Games</div>
                 <div class="window-controls">
-                    <button class="btn-close" onclick="closeWindow('games')">&#10005;</button>
+                    <button class="btn-close" aria-label="Close">&#10005;</button>
                 </div>
             </div>
-        <div class="window-content column-layout">
-            <h2 style="text-align:center; font-size: 1.5rem;">The Games I Played</h2>
+            <div class="window-content">
+                <h2 class="games-heading">The Games I Played</h2>
                 <div class="games-container">
-                    <ul>
-                        <a src="https://oneshot.dangenentertainment.com" target:"_blank"><li><img src="assets/oneshot.png"> Oneshot ⭐</li></a>
-                        <a src="https://www.geometrydash.com" target:"_blank"><li><img src="assets/gd.png"> Geometry Dash</li></a>
-                        <a src="https://www.counter-strike.net" target:"_blank"><li><img src="assets/cs.png"> Counter-Strike (Any Version)</li></a>
-                        <a src=" https://www.minecraft.net" target:"_blank"><li><img src="assets/mc.png"> Minecraft</li></a>
-                        <a src="https://www.thatskygame.com" target:"_blank"><li><img src="assets/sky.png"> Sky: Children of the Light</li></a>
-                        <a src="https://www.roblox.com/users/9833627921/profile" target:"_blank"><li><img src="assets/roblox.png"> Roblox</li></a>
-                        <a src="https://www.chess.com/member/minhcat0811" target:"_blank"><li><img src="assets/chess.png"> Chess.com</li></a>
+                    <ul class="games-list">
+                        <li><a href="https://oneshot.dangenentertainment.com" target="_blank" rel="noopener noreferrer"><img src="assets/oneshot.png" alt="Oneshot"> Oneshot ⭐</a></li>
+                        <li><a href="https://www.geometrydash.com" target="_blank" rel="noopener noreferrer"><img src="assets/gd.png" alt="Geometry Dash"> Geometry Dash</a></li>
+                        <li><a href="https://www.counter-strike.net" target="_blank" rel="noopener noreferrer"><img src="assets/cs.png" alt="Counter-Strike"> Counter-Strike (Any Version)</a></li>
+                        <li><a href="https://www.minecraft.net" target="_blank" rel="noopener noreferrer"><img src="assets/mc.png" alt="Minecraft"> Minecraft</a></li>
+                        <li><a href="https://www.thatskygame.com" target="_blank" rel="noopener noreferrer"><img src="assets/sky.png" alt="Sky"> Sky: Children of the Light</a></li>
+                        <li><a href="https://www.roblox.com/users/9833627921/profile" target="_blank" rel="noopener noreferrer"><img src="assets/roblox.png" alt="Roblox"> Roblox</a></li>
+                        <li><a href="https://www.chess.com/member/minhcat0811" target="_blank" rel="noopener noreferrer"><img src="assets/chess.png" alt="Chess"> Chess.com</a></li>
                     </ul>
                 </div>
             </div>
@@ -124,11 +124,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-
