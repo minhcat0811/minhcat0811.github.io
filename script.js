@@ -45,6 +45,12 @@ function openWindow(id, titleName) {
                 win.style.width = '90vw';
                 win.style.height = '80vh';
             }
+        } else {
+            if (!win.dataset.positioned) {
+                win.style.top = '50%';
+                win.style.left = '50%';
+                win.style.transform = 'translate(-50%, -50%)';
+            }
         }
 
         addTaskbarItem(id, titleName || 'Window');
@@ -55,6 +61,7 @@ function closeWindow(id) {
     const win = document.getElementById(id);
     if(win) {
         win.style.display = 'none';
+        win.dataset.positioned = '';
         removeTaskbarItem(id);
     }
 }
@@ -80,6 +87,8 @@ function addTaskbarItem(id, name) {
         });
         
         taskbarContainer.appendChild(item);
+    } else {
+        existingItem.classList.add('active');
     }
 }
 
@@ -105,6 +114,16 @@ function bringToFront(element) {
         relatedTab.classList.add('active');
     }
 }
+
+document.querySelectorAll('.icon').forEach(icon => {
+    icon.addEventListener('click', function() {
+        const windowId = this.dataset.window;
+        const windowTitle = this.dataset.title;
+        if (windowId) {
+            openWindow(windowId, windowTitle);
+        }
+    });
+});
 
 const windows = document.querySelectorAll('.window');
 
@@ -158,6 +177,7 @@ windows.forEach(win => {
             win.style.transform = 'none';
             win.style.left = `${rect.left}px`;
             win.style.top = `${rect.top}px`;
+            win.dataset.positioned = 'true';
         }
         
         initialLeft = parseFloat(win.style.left) || rect.left;
@@ -184,6 +204,7 @@ windows.forEach(win => {
 
         win.style.left = `${Math.max(0, Math.min(newLeft, maxX))}px`;
         win.style.top = `${Math.max(0, Math.min(newTop, maxY))}px`;
+        win.dataset.positioned = 'true';
     });
 
     const stopDrag = (e) => {
@@ -224,6 +245,7 @@ window.addEventListener('resize', () => {
                 win.style.top = '50%';
                 win.style.left = '50%';
                 win.style.transform = 'translate(-50%, -50%)';
+                win.dataset.positioned = '';
             }
         }
     });
