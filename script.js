@@ -1,10 +1,12 @@
 window.addEventListener('load', () => {
     const startupScreen = document.getElementById('startup-screen');
+    const taskbar = document.getElementById('taskbar');
     setTimeout(() => {
         startupScreen.style.opacity = '0';
         startupScreen.style.transition = 'opacity 0.8s';
         setTimeout(() => {
             startupScreen.style.display = 'none';
+            taskbar.classList.add('visible');
         }, 800);
     }, 2000);
 });
