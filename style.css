@@ -359,8 +359,6 @@ body {
     pointer-events: auto;
 }
 
-
-
 #taskbar-apps {
     display: flex;
     gap: 5px;
