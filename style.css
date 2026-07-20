@@ -330,14 +330,14 @@ body {
 }
 
 .games-list li img {
-    width: 96px;
-    height: 96px;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
 }
 
 .char-list li img {
-    width: 100px;
-    height: 100px;
+    width: 96px;
+    height: 96px;
     object-fit: contain;
 }
 
