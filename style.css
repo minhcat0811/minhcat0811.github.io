@@ -335,12 +335,6 @@ body {
     object-fit: contain;
 }
 
-.char-list li img {
-    width: 96px;
-    height: 96px;
-    object-fit: contain;
-}
-
 #taskbar {
     position: absolute;
     bottom: 0;
