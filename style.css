@@ -291,6 +291,11 @@ body {
     transform: scale(1.2) rotate(5deg); 
 }
 
+.char-container {
+    overflow-y: auto;
+    height: calc(100% - 60px);
+}
+
 .games-heading {
     text-align: center; 
     font-size: 1.5rem;
@@ -333,11 +338,6 @@ body {
     width: 32px;
     height: 32px;
     object-fit: contain;
-}
-
-.char-container {
-    overflow-y: auto;
-    height: calc(100% - 60px);
 }
 
 #taskbar {
