@@ -144,18 +144,23 @@
             </div>
         <div class="window-content">
             <h2 style="font-size: 1.5rem;">My Favourite Characters</h2>
-                <div class="games-container scroll-box">
+                <div class="char-container scroll-box">
                     <style>
                         .char-list li img {
                         width: 64px;
                         height: 64px;
                         border: 1px solid;
                         border-color: #9664FF;
+                        object-fit: contain;
                         }
     
                         .char-list li {
                         font-size: 2rem;
                         list-style-type: none;
+                        margin-bottom: 15px;
+                        border-left: 2px solid #9664FF;
+                        padding-left: 10px;
+                        background: rgba(150, 100, 255, 0.05);
                         }
 
                         
@@ -164,6 +169,7 @@
                         text-decoration: none;
                         display: flex;
                         align-items: center;
+                        gap: 10px;
                         }
                     </style>
                     <ul class="char-list">
