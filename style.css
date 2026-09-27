@@ -338,6 +338,7 @@ body {
 .char-container {
     overflow-y: auto;
     height: calc(100% - 60px);
+}
 
 #taskbar {
     position: absolute;
