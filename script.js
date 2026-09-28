@@ -250,3 +250,86 @@ window.addEventListener('resize', () => {
         }
     });
 });
+
+(function () {
+    const DIRS = ['n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw'];
+    const MIN_W = 300;
+    const MIN_H = 200;
+    const isMobileView = () => window.innerWidth <= 768;
+
+    function getTaskbarHeight() {
+        const bar = document.getElementById('taskbar');
+        return bar ? bar.offsetHeight : 40;
+    }
+
+    function attachResize(win, handle, dir) {
+        let resizing = false;
+        let startX, startY, startRect;
+
+        handle.addEventListener('pointerdown', (e) => {
+            if (isMobileView()) return;
+            e.preventDefault();
+            resizing = true;
+
+            startX = e.clientX;
+            startY = e.clientY;
+            startRect = win.getBoundingClientRect();
+            win.style.transform = 'none';
+            win.style.margin = '0';
+            win.style.left = `${startRect.left}px`;
+            win.style.top = `${startRect.top}px`;
+            win.style.width = `${startRect.width}px`;
+            win.style.height = `${startRect.height}px`;
+            win.dataset.positioned = 'true';
+
+            handle.setPointerCapture(e.pointerId);
+        });
+
+        handle.addEventListener('pointermove', (e) => {
+            if (!resizing) return;
+            e.preventDefault();
+
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+
+            const maxRight = Math.max(window.innerWidth, startRect.right);
+            const maxBottom = Math.max(window.innerHeight - getTaskbarHeight(), startRect.bottom);
+
+            let left = startRect.left;
+            let top = startRect.top;
+            let right = startRect.right;
+            let bottom = startRect.bottom;
+
+            if (dir.includes('e')) right = Math.min(maxRight, Math.max(startRect.right + dx, left + MIN_W));
+            if (dir.includes('w')) left = Math.max(0, Math.min(startRect.left + dx, right - MIN_W));
+            if (dir.includes('s')) bottom = Math.min(maxBottom, Math.max(startRect.bottom + dy, top + MIN_H));
+            if (dir.includes('n')) top = Math.max(0, Math.min(startRect.top + dy, bottom - MIN_H));
+
+            win.style.left = `${left}px`;
+            win.style.top = `${top}px`;
+            win.style.width = `${right - left}px`;
+            win.style.height = `${bottom - top}px`;
+        });
+
+        const stopResize = (e) => {
+            if (!resizing) return;
+            resizing = false;
+            if (e.pointerId !== undefined && handle.hasPointerCapture(e.pointerId)) {
+                handle.releasePointerCapture(e.pointerId);
+            }
+        };
+
+        handle.addEventListener('pointerup', stopResize);
+        handle.addEventListener('pointercancel', stopResize);
+    }
+
+    document.querySelectorAll('.window').forEach((win) => {
+        DIRS.forEach((dir) => {
+            const handle = document.createElement('div');
+            handle.className = 'resize-handle';
+            handle.dataset.dir = dir;
+            win.appendChild(handle);
+            attachResize(win, handle, dir);
+        });
+    });
+})();
